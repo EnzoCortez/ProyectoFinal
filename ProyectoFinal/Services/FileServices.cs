@@ -5,7 +5,7 @@ namespace ProyectoFinal.Services
 {
     public static class FileService
     {
-        private static readonly string FilePath = Path.Combine(FileSystem.AppDataDirectory, "data.json");
+        private static readonly string FilePath = Path.Combine(FileSystem.AppDataDirectory, "Listado.json");
 
         public static async Task<List<Estudiante>> LoadEstudiantesAsync()
         {
