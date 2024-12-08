@@ -11,7 +11,6 @@ namespace ProyectoFinal
         public AttendancePage()
         {
             InitializeComponent();
-
             LoadData();
             BindingContext = this;
         }
@@ -27,16 +26,26 @@ namespace ProyectoFinal
 
         private async void OnAddStudentClicked(object sender, EventArgs e)
         {
-            // Ejemplo para agregar un estudiante
+            // Crear un nuevo estudiante desde los campos del formulario
             var nuevoEstudiante = new Estudiante
             {
-                Nombre = "Nuevo",
-                Apellido = "Estudiante",
-                CI = "123456",
-                Carrera = "Ingeniería"
+                Nombre = NombreEntry.Text,
+                Apellido = ApellidoEntry.Text,
+                CI = CIEntry.Text,
+                Carrera = CarreraEntry.Text,
+                TieneFalta = FaltaSwitch.IsToggled
             };
+
             Estudiantes.Add(nuevoEstudiante);
             await FileService.SaveEstudiantesAsync(Estudiantes.ToList());
+            await DisplayAlert("Éxito", "Estudiante agregado correctamente.", "OK");
+
+            // Limpiar los campos
+            NombreEntry.Text = string.Empty;
+            ApellidoEntry.Text = string.Empty;
+            CIEntry.Text = string.Empty;
+            CarreraEntry.Text = string.Empty;
+            FaltaSwitch.IsToggled = false;
         }
 
         private async void OnDeleteStudentClicked(object sender, EventArgs e)
@@ -46,11 +55,13 @@ namespace ProyectoFinal
 
             if (estudiante != null)
             {
-                Estudiantes.Remove(estudiante);
-                await FileService.SaveEstudiantesAsync(Estudiantes.ToList());
+                var confirm = await DisplayAlert("Confirmar", $"¿Eliminar a {estudiante.Nombre} {estudiante.Apellido}?", "Sí", "No");
+                if (confirm)
+                {
+                    Estudiantes.Remove(estudiante);
+                    await FileService.SaveEstudiantesAsync(Estudiantes.ToList());
+                }
             }
         }
-
     }
-
 }

@@ -1,11 +1,42 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ProyectoFinal.AttendancePage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             xmlns:models="clr-namespace:ProyectoFinal.Models"
+             x:Class="ProyectoFinal.AttendancePage"
+             Title="Registro de Asistencia">
+
+    <ContentPage.Content>
+        <StackLayout Padding="20">
+
+            <!-- Formulario para agregar un estudiante -->
+            <Label Text="Agregar Estudiante" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" />
+            <Entry x:Name="NombreEntry" Placeholder="Nombre" />
+            <Entry x:Name="ApellidoEntry" Placeholder="Apellido" />
+            <Entry x:Name="CIEntry" Placeholder="Cédula de Identidad" Keyboard="Numeric" />
+            <Entry x:Name="CarreraEntry" Placeholder="Carrera" />
+            <StackLayout Orientation="Horizontal">
+                <Label Text="¿Tiene falta?" VerticalOptions="Center" />
+                <Switch x:Name="FaltaSwitch" />
+            </StackLayout>
+            <Button Text="Agregar Estudiante" Clicked="OnAddStudentClicked" BackgroundColor="LightBlue" />
+
+            <!-- Lista de estudiantes -->
+            <Label Text="Lista de Estudiantes" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" Margin="10,20,10,0" />
+            <CollectionView ItemsSource="{Binding Estudiantes}" SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Orientation="Horizontal" Padding="5">
+                            <Label Text="{Binding Nombre}" FontAttributes="Bold" />
+                            <Label Text="{Binding Apellido}" Margin="10,0,0,0" />
+                            <Label Text="{Binding Carrera}" Margin="10,0,0,0" />
+                            <Label Text="Falta: " />
+                            <Label Text="{Binding TieneFalta, Converter={StaticResource BoolToYesNoConverter}}" />
+                            <Button Text="Eliminar" Clicked="OnDeleteStudentClicked" BackgroundColor="LightCoral" />
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </StackLayout>
+    </ContentPage.Content>
 </ContentPage>

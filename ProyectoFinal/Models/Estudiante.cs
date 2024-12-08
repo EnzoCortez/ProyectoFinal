@@ -6,5 +6,6 @@
         public string Apellido { get; set; }
         public string CI { get; set; }
         public string Carrera { get; set; }
+        public bool TieneFalta { get; set; }
     }
 }

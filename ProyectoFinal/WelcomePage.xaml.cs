@@ -1,7 +1,4 @@
-using ProyectoFinal.Models;
 using ProyectoFinal.Services;
-
-
 namespace ProyectoFinal
 {
     public partial class WelcomePage : ContentPage
@@ -13,19 +10,22 @@ namespace ProyectoFinal
 
         private async void OnLoginClicked(object sender, EventArgs e)
         {
-            string username = UsernameEntry.Text;
-            string password = PasswordEntry.Text;
+            var usuarios = await UsuarioService.LoadUsuariosAsync();
+            var usuario = usuarios.FirstOrDefault(u =>
+                u.NombreUsuario == UsernameEntry.Text &&
+                u.Contraseña == PasswordEntry.Text);
 
-            if (username == "admin" && password == "1234") // Cambia esto según tu lógica
+            if (usuario != null)
             {
-                await Navigation.PushAsync(new AttendancePage());
+                // Navegación a AttendancePage
+                await Shell.Current.GoToAsync("//AttendancePage");
             }
             else
             {
+                // Mostrar mensaje de error
                 ErrorMessage.Text = "Usuario o contraseña incorrectos. Intente de nuevo.";
                 ErrorMessage.IsVisible = true;
             }
         }
     }
-
 }

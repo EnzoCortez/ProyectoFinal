@@ -1,15 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Shell
-    x:Class="ProyectoFinal.AppShell"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:ProyectoFinal"
-    Shell.FlyoutBehavior="Disabled"
-    Title="ProyectoFinal">
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:pages="clr-namespace:ProyectoFinal" 
+       x:Class="ProyectoFinal.AppShell">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <!-- Definición de estilos -->
+    <Shell.Resources>
+        <ResourceDictionary>
+            <Style x:Key="BaseStyle" TargetType="Element">
+                <Setter Property="Shell.BackgroundColor" Value="{DynamicResource Secondary}" />
+                <Setter Property="Shell.ForegroundColor" Value="{DynamicResource Primary}" />
+                <Setter Property="Shell.TitleColor" Value="{DynamicResource Primary}" />
+                <Setter Property="Shell.DisabledColor" Value="{DynamicResource Gray}" />
+                <Setter Property="Shell.UnselectedColor" Value="{DynamicResource Gray}" />
+            </Style>
+        </ResourceDictionary>
+    </Shell.Resources>
 
+    <!-- Flyout Items -->
+    <FlyoutItem Title="Inicio" Icon="icon_home.png">
+        <ShellContent Route="WelcomePage" 
+                      ContentTemplate="{DataTemplate pages:WelcomePage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Información" Icon="icon_info.png">
+        <ShellContent Route="InfoPage" 
+                      ContentTemplate="{DataTemplate pages:AboutPage}" />
+    </FlyoutItem>
+
+    <!-- Página de Registro de Asistencia (oculta en el Flyout) -->
+    <ShellContent Route="AttendancePage" 
+                  ContentTemplate="{DataTemplate pages:AttendancePage}" />
 </Shell>
